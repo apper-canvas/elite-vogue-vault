@@ -27,10 +27,15 @@ const Layout = () => {
     isInWishlist: wishlistContext.isInWishlist
   };
 
-  return (
+return (
     <>
       <div className="flex flex-col min-h-screen">
-        <Header />
+        <Header 
+          cart={cartContext.cart}
+          wishlist={wishlistContext.wishlist}
+          user={authContext.user}
+          logout={authContext.logout}
+        />
         <main className="flex-1">
           <Outlet context={outletContext} />
         </main>

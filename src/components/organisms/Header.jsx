@@ -12,8 +12,11 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [accountDropdownOpen, setAccountDropdownOpen] = useState(false);
-const navigate = useNavigate();
-  const { cart, wishlist, user, logout } = useOutletContext();
+  
+  const navigate = useNavigate();
+  const { cart } = useCart();
+  const { wishlist } = useWishlist();
+  const { user, logout } = useAuth();
   
   const getCartCount = () => {
     if (!cart || !Array.isArray(cart)) return 0;
@@ -29,9 +32,11 @@ const navigate = useNavigate();
     { label: "Sale", path: "/sale" }
   ];
 
-  const handleLogout = async () => {
+const handleLogout = async () => {
     try {
-      await logout();
+      if (logout) {
+        await logout();
+      }
       setAccountDropdownOpen(false);
       toast.success("Logged out successfully");
       navigate("/");
@@ -79,7 +84,7 @@ const navigate = useNavigate();
                 className="relative p-2 text-primary hover:text-accent transition-colors duration-200"
               >
                 <ApperIcon name="Heart" size={22} />
-                {wishlist.length > 0 && (
+{wishlist?.length > 0 && (
                   <Badge
                     variant="accent"
                     className="absolute -top-1 -right-1 min-w-[20px] h-5 flex items-center justify-center"
@@ -120,13 +125,13 @@ const navigate = useNavigate();
                       exit={{ opacity: 0, y: -10 }}
                       className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-secondary py-2 z-50"
                     >
-                      {user ? (
+{user ? (
                         <>
                           <div className="px-4 py-2 border-b border-secondary">
                             <p className="font-semibold text-primary">
-                              {user.firstName} {user.lastName}
+                              {user?.firstName} {user?.lastName}
                             </p>
-                            <p className="text-sm text-primary/60">{user.email}</p>
+                            <p className="text-sm text-primary/60">{user?.email}</p>
                           </div>
                           <Link
                             to="/account"
@@ -251,13 +256,13 @@ const navigate = useNavigate();
                 </nav>
 
                 <div className="mt-8 pt-8 border-t border-secondary space-y-4">
-                  {user ? (
+{user ? (
                     <>
                       <div className="px-4 py-2 bg-secondary rounded-lg">
                         <p className="font-semibold text-primary">
-                          {user.firstName} {user.lastName}
+                          {user?.firstName} {user?.lastName}
                         </p>
-                        <p className="text-sm text-primary/60">{user.email}</p>
+                        <p className="text-sm text-primary/60">{user?.email}</p>
                       </div>
                       <Link
                         to="/account"

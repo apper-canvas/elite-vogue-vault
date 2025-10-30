@@ -1,13 +1,12 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
 import CartItem from "@/components/molecules/CartItem";
 import Empty from "@/components/ui/Empty";
-import { useCart } from "@/hooks/useCart";
 
 const CartPage = () => {
-  const navigate = useNavigate();
-  const { cart, getCartTotal } = useCart();
+const navigate = useNavigate();
+  const { cart, getCartTotal } = useOutletContext();
   const subtotal = getCartTotal();
   const shipping = subtotal > 100 ? 0 : 10;
   const total = subtotal + shipping;

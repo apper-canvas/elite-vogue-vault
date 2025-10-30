@@ -1,17 +1,15 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
 import Input from "@/components/atoms/Input";
 import Select from "@/components/atoms/Select";
-import { useCart } from "@/hooks/useCart";
-import { useAuth } from "@/hooks/useAuth";
 import orderService from "@/services/api/orderService";
+
 const CheckoutPage = () => {
-  const navigate = useNavigate();
-  const { cart, getCartTotal, clearCart } = useCart();
-  const { user } = useAuth();
+const navigate = useNavigate();
+  const { cart, getCartTotal, clearCart, user } = useOutletContext();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     firstName: "",

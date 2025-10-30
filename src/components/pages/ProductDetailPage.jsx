@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useOutletContext } from "react-router-dom";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import ApperIcon from "@/components/ApperIcon";
@@ -9,12 +9,11 @@ import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
 import ProductGrid from "@/components/organisms/ProductGrid";
 import productService from "@/services/api/productService";
-import { useCart } from "@/hooks/useCart";
-import { useWishlist } from "@/hooks/useWishlist";
 
 const ProductDetailPage = () => {
-  const { id } = useParams();
+const { id } = useParams();
   const navigate = useNavigate();
+  const { addToCart, isInWishlist, toggleWishlist } = useOutletContext();
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -23,8 +22,6 @@ const ProductDetailPage = () => {
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const { addToCart } = useCart();
-  const { isInWishlist, toggleWishlist } = useWishlist();
 
   useEffect(() => {
     loadProduct();

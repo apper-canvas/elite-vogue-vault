@@ -1,23 +1,26 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState } from "react";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "react-toastify";
-import ApperIcon from "@/components/ApperIcon";
-import Badge from "@/components/atoms/Badge";
-import SearchBar from "@/components/molecules/SearchBar";
 import { useCart } from "@/hooks/useCart";
 import { useWishlist } from "@/hooks/useWishlist";
 import { useAuth } from "@/hooks/useAuth";
+import ApperIcon from "@/components/ApperIcon";
+import Badge from "@/components/atoms/Badge";
+import SearchBar from "@/components/molecules/SearchBar";
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [accountDropdownOpen, setAccountDropdownOpen] = useState(false);
-  const navigate = useNavigate();
-  const { getCartCount } = useCart();
-  const { wishlist } = useWishlist();
-  const { user, logout } = useAuth();
+const navigate = useNavigate();
+  const { cart, wishlist, user, logout } = useOutletContext();
+  
+  const getCartCount = () => {
+    if (!cart || !Array.isArray(cart)) return 0;
+    return cart.reduce((total, item) => total + (item?.quantity || 0), 0);
+  };
+  
   const cartCount = getCartCount();
-
   const navItems = [
     { label: "Home", path: "/" },
     { label: "Women", path: "/category/women" },

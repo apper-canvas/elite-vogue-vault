@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
 import ProductGrid from "@/components/organisms/ProductGrid";
@@ -7,11 +7,10 @@ import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
 import productService from "@/services/api/productService";
-import { useWishlist } from "@/hooks/useWishlist";
 
 const WishlistPage = () => {
-  const navigate = useNavigate();
-  const { wishlist } = useWishlist();
+const navigate = useNavigate();
+  const { wishlist } = useOutletContext();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

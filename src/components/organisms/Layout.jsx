@@ -1,18 +1,19 @@
 import { Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { useSelector } from "react-redux";
 import Header from "@/components/organisms/Header";
 import Footer from "@/components/organisms/Footer";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/hooks/useCart";
 import { useWishlist } from "@/hooks/useWishlist";
-
 const Layout = () => {
+const { user } = useSelector((state) => state.user);
   const authContext = useAuth();
   const cartContext = useCart();
   const wishlistContext = useWishlist();
 
   const outletContext = {
-    user: authContext.user,
+    user: user || authContext.user,
     logout: authContext.logout,
     cart: cartContext.cart,
     addToCart: cartContext.addToCart,

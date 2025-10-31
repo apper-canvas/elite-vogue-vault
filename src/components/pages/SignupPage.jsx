@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/layouts/Root";
 import { useSelector } from "react-redux";
 
-function Login() {
+function Signup() {
   const { isInitialized } = useAuth();
   const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ function Login() {
     if (isInitialized) {
       const { ApperUI } = window.ApperSDK;
       if (!user) {
-        ApperUI.showLogin("#authentication");
+        ApperUI.showSignup("#authentication");
       } else {
         const searchParams = new URLSearchParams(window.location.search);
         const redirectPath = searchParams.get("redirect");
@@ -30,19 +30,19 @@ function Login() {
           </div>
           <div className="flex flex-col gap-1 items-center justify-center">
             <div className="text-center text-lg xl:text-xl font-bold font-display">
-              Sign in to Vogue Vault
+              Create Account
             </div>
             <div className="text-center text-sm text-primary/60">
-              Welcome back, please sign in to continue
+              Please create an account to continue
             </div>
           </div>
         </div>
         <div id="authentication" />
         <div className="text-center mt-4">
           <p className="text-sm text-primary/60">
-            Don't have an account?{" "}
-            <Link to="/signup" className="font-medium text-accent hover:text-accent/80">
-              Sign up
+            Already have an account?{" "}
+            <Link to="/login" className="font-medium text-accent hover:text-accent/80">
+              Sign in
             </Link>
           </p>
         </div>
@@ -51,4 +51,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Signup;

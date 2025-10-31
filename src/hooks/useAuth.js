@@ -1,43 +1,24 @@
-import { useState, useEffect } from "react";
-import authService from "@/services/api/authService";
+import { useSelector } from "react-redux";
+import { useRootAuth } from "@/layouts/Root";
+import React from "react";
 
 export const useAuth = () => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { user, isAuthenticated } = useSelector((state) => state.user);
+  const { logout, isInitialized, login, register } = useRootAuth();
 
-  useEffect(() => {
-    const currentUser = authService.getCurrentUser();
-    setUser(currentUser);
-    setLoading(false);
-  }, []);
-
-  const login = async (email, password) => {
-    const loggedInUser = await authService.login(email, password);
-    setUser(loggedInUser);
-    return loggedInUser;
-  };
-
-  const register = async (userData) => {
-    const newUser = await authService.register(userData);
-    setUser(newUser);
-    return newUser;
-  };
-
-  const logout = async () => {
-    await authService.logout();
-    setUser(null);
-  };
-
-  const isAuthenticated = () => {
-    return user !== null;
+  const getUser = () => {
+    if (window.ApperSDK && window.ApperSDK.ApperUI) {
+      return window.ApperSDK.ApperUI.getUser();
+    }
+    return user;
   };
 
   return {
-    user,
-    loading,
-    login,
-    register,
+    user: user || getUser(),
+    isAuthenticated,
+    loading: !isInitialized,
     logout,
-    isAuthenticated
+    login,
+    register
   };
 };
